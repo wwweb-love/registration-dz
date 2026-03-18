@@ -10,4 +10,6 @@ export const TextArea = styled(TextAreaContainer)`
     font-size: 18px;
     padding: 2px 7px;
     height: 100px;
+
+    height: 120px;
 `
