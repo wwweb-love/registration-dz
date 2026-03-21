@@ -2,6 +2,11 @@ import { styled } from "styled-components"
 import { SectionInput, Button } from "../../components"
 
 const LoginContainer = ({ className }) => {
+
+    const onClick = () => {
+    }
+
+
     return (
         <div className={className}>
             <h2>Login</h2>
@@ -9,7 +14,7 @@ const LoginContainer = ({ className }) => {
                 <SectionInput inputType="email" inputName="email" inputPlaceholder="" labelTitle="Электронная почта" />
                 <SectionInput inputType="password" inputName="password" inputPlaceholder="" labelTitle="Пароль" />
 
-                <Button typeButton="submit">Войти</Button>
+                <Button onClick={onClick} typeButton="submit">Войти</Button>
             </form>
         </div>
     )

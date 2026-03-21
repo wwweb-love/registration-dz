@@ -1,6 +1,6 @@
 import './App.css'
 import { Routes, Route } from "react-router-dom"
-import { Login, LeaveARequest } from './pages'
+import { Login, LeaveARequest, ApplicationsFromTheForm } from './pages'
 
 function App() {
 
@@ -10,6 +10,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LeaveARequest />}></Route>
         <Route path='/login' element={<Login />}></Route>
+        <Route path='/app-from-the-form' element={<ApplicationsFromTheForm />}></Route>
       </Routes>
     </>
   )

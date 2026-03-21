@@ -1,8 +1,8 @@
 import styled from "styled-components"
 
-const TextAreaContainer = ({className, textareaType, textareaName, textareaPlaceholder }) => {
+const TextAreaContainer = ({className, textareaType, textareaName, textareaPlaceholder, onChange, register }) => {
     return (
-        <textarea className={className} type={textareaType} name={textareaName} placeholder={textareaPlaceholder} />
+        <textarea className={className} type={textareaType} name={textareaName} placeholder={textareaPlaceholder} onChange={onChange} {...register(textareaName)} />
     )
 }
 

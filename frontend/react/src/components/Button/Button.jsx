@@ -1,6 +1,6 @@
 import styled from "styled-components"
 
-const ButtonContainer = ({className, children, onClick, typeButton}) => {
+const ButtonContainer = ({className, children, onClick, typeButton="button"}) => {
     return <button className={className} type={typeButton} onClick={onClick}>{children}</button>
 }
 
