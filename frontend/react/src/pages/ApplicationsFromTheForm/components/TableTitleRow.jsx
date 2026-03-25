@@ -19,4 +19,20 @@ export const TableTitleRow = styled(TableTitleRowContainer)`
         justify-content: space-between;
         border-bottom: 1px solid black;
         font-weight: 900;
+
+        .date-post-table {
+        width: 15%;
+    }
+
+    .name-user-table {
+        width: 30%;
+    }
+
+    .phone-table {
+        width: 15%;
+    }
+
+    .description-problem-table {
+        width: 40%;
+    }
 `

@@ -3,7 +3,15 @@ const mongoose = require("mongoose")
 const chalk = require("chalk")
 const cors = require("cors")
 const path = require("path")
-const { createRecording, readRecordings } = require("./CRUD-db/crud")
+const { 
+    createRecording, 
+    readRecordings, 
+    createUser
+ } = require("./CRUD-db/crud")
+const { identification } = require("./registration/identification")
+const { authentication } = require("./registration/authentication")
+const { authorization } = require("./registration/authorization")
+const { error } = require("console")
 
 const PORT = 3000
 const server = express()
@@ -29,6 +37,39 @@ server.post("/recording", (req, res) => {
     res.json({status: "200"})
 
     createRecording(req.body)
+})
+
+server.post("/login/auth", async (req, res) => {
+    console.log(chalk.bgBlue("Фронтенд"), JSON.stringify(req.body))
+
+    let userIdentification = ""
+    let userAuthentication = ""
+    let userAuthorization = ""
+
+    if (req.body.email) {
+        userIdentification = await identification(req.body.email)
+        console.log(chalk.bgGreen("User"), userIdentification)
+    }
+
+    if (userIdentification) {
+        userAuthentication = await authentication(userIdentification, req.body.password) 
+        console.log(chalk.bgGreen("Аутентификация"), userAuthentication)
+    }
+
+    if (userAuthentication) {
+        userAuthorization = await authorization(userIdentification)
+        console.log(chalk.bgGreen("Авторизация"), userAuthorization)
+
+        res.json({ user: userIdentification, role: userAuthorization, error: null })
+    } else {
+        res.json({ user: userIdentification, role: userAuthorization, error: "Ошибка" })
+    }
+
+})
+
+server.post("/login/create", (req, res) => {
+    console.log(chalk.bgBlue("Фронтенд"), JSON.stringify(req.body))
+    createUser(req.body)
 })
 
 
