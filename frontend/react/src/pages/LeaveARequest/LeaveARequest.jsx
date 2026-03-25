@@ -5,6 +5,7 @@ import { postLeaveARequest } from "../../../api"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import { useNavigate } from "react-router"
 
 
 
@@ -29,6 +30,7 @@ const RecordingSchema = yup.object().shape({
 })
 
 const LeaveARequestContainer = ({ className }) => {
+    const navigate = useNavigate()
 
     const {
         register,
@@ -78,7 +80,8 @@ const LeaveARequestContainer = ({ className }) => {
                 <Button typeButton="submit">Отправить</Button>
             </form>
 
-
+            <button onClick={() => navigate("/app-from-the-form")}>app-from-the-form</button>
+            <button onClick={() => navigate("/login")}>login</button>
 
             {statusFetch == undefined ? null : <Notification statusFetch={statusFetch}>{statusFetch ? "Запрос отправлен успешно" : "Запрос был прерван"}</Notification>}
         </div>

@@ -1,9 +1,14 @@
 import styled from "styled-components"
 import { TableTitleRow, TableDataRow } from "./components"
 import { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
+import { selectorUser } from "../../../selectors"
+import { NoteFound } from "../../components"
 
 
 const ApplicationsFromTheFormContainer = ({ className }) => {
+    const user = useSelector(selectorUser)
+    console.log(user)
 
     const [data, setData] = useState(null)
 
@@ -12,16 +17,25 @@ const ApplicationsFromTheFormContainer = ({ className }) => {
     }, [])
 
     return (
-        <div className={className}>
-            <h2>Заявки с формы</h2>
+        <>
+            {user?.role_id ? (
 
-            <div className="table">
-                <TableTitleRow />
-                <TableDataRow data={data} />
+                <div className={className}>
+                    <h2>Заявки с формы</h2>
 
-            </div>
-        </div>
+                    <div className="table">
+                        <TableTitleRow />
+                        <TableDataRow data={data} />
+
+                    </div>
+                </div>
+            ): (
+                <NoteFound />
+            )}
+
+        </>
     )
+
 }
 
 export const ApplicationsFromTheForm = styled(ApplicationsFromTheFormContainer)`

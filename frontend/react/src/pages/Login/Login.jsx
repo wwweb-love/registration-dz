@@ -4,6 +4,10 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { actionUser } from "../../../actions"
+import { selectorUser } from "../../../selectors"
+import { useSelector } from "react-redux"
 
 const LoginSchema = yup.object().shape({
     email: yup
@@ -21,6 +25,7 @@ const LoginSchema = yup.object().shape({
 
 const LoginContainer = ({ className }) => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const {
         register,
@@ -70,6 +75,7 @@ const LoginContainer = ({ className }) => {
                         message: res.error
                     });
                 } else {
+                    dispatch(actionUser(res.user))
                     navigate("/")
                 }
             })
