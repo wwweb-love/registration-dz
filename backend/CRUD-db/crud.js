@@ -22,8 +22,8 @@ const readUsers = async () => {
     return await User.find()
 }
 
-const createRole = async () => {
-    await Role.create({ role_id: 2, role_name: "GUEST" })
+const createRole = async (data) => {
+    await Role.create({ role_id: data.role_id, role_name: data.role_name })
     console.log(chalk.bgGreen("Role create"))
 }
 

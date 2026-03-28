@@ -1,31 +1,36 @@
-import { styled } from "styled-components"
-import { SectionInput, Button } from "../../components"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { actionUser } from "../../../actions"
-import { selectorUser } from "../../../selectors"
-import { useSelector } from "react-redux"
+import { styled } from "styled-components";
+import { SectionInput, Button } from "../../components";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { actionUser } from "../../../actions";
+import { selectorUser } from "../../../selectors";
+import { useSelector } from "react-redux";
+import { addRole, addUser } from "../../../api";
+import { loginAuth } from "../../../hooks";
+
+
+import { Test } from "../../components/Test/Test";
 
 const LoginSchema = yup.object().shape({
     email: yup
         .string()
-        .required('Введите почту...')
+        .required("Введите почту...")
         .min(3, "Неверно заполнена почта. Минимум 3 символа")
         .max(15, "Неверно заполнена почта. Максимум 15 символов"),
 
     password: yup
         .string()
-        .required('Введите пароль...')
+        .required("Введите пароль...")
         .min(3, "Неверно заполнен пароль. Минимум 3 символа")
-        .max(15, "Неверно заполнен пароль. Максимум 15 символов")
-})
+        .max(15, "Неверно заполнен пароль. Максимум 15 символов"),
+});
 
 const LoginContainer = ({ className }) => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const {
         register,
@@ -35,70 +40,73 @@ const LoginContainer = ({ className }) => {
     } = useForm({
         defaultValues: {
             email: "",
-            password: ""
+            password: "",
         },
-        resolver: yupResolver(LoginSchema)
-    })
+        resolver: yupResolver(LoginSchema),
+    });
 
     const onSubmit = (data, event) => {
-        event.preventDefault()
+        event.preventDefault();
 
-        // fetch("http://localhost:3000/login/create", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json;charset=utf-8"
-        //     },
-        //     body: JSON.stringify({
-        //         email: data.email,
-        //         password: data.password,
-        //         role_id: "2"
-        //     })
-        // })
-        // .then(res => res.json())
-        // .then(res => console.log(res))
+        // addUser(data)
+        //     .then((res) => res.json())
+        //     .then((res) => console.log(res));
 
-        fetch("http://localhost:3000/login/auth", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify({
-                email: data.email,
-                password: data.password
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
+        // addRole()
+        //     .then((res) => res.json())
+        //     .then((res) => console.log(res));
+
+        loginAuth(data)
+            .then((res) => res.json())
+            .then((res) => {
                 if (res.error) {
-                    setError('password', {
-                        type: 'server',
-                        message: res.error
+                    setError("password", {
+                        type: "server",
+                        message: res.error,
                     });
                 } else {
-                    dispatch(actionUser(res.user))
-                    navigate("/")
+                    dispatch(actionUser(res.user));
+                    navigate("/");
                 }
-            })
-    }
+            });
+    };
 
     return (
         <div className={className}>
+            {/* <Test /> */}
             <h2>Login</h2>
-            <form action="POST" className="login--form" onSubmit={handleSubmit(onSubmit)}>
-                <SectionInput inputType="email" inputName="email" inputPlaceholder="" labelTitle="Электронная почта" register={register} errors={errors?.email} />
-                <SectionInput inputType="password" inputName="password" inputPlaceholder="" labelTitle="Пароль" register={register} errors={errors?.password} />
+            <form
+                action="POST"
+                className="login--form"
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <SectionInput
+                    inputType="email"
+                    inputName="email"
+                    inputPlaceholder=""
+                    labelTitle="Электронная почта"
+                    register={register}
+                    errors={errors?.email}
+                />
+                <SectionInput
+                    inputType="password"
+                    inputName="password"
+                    inputPlaceholder=""
+                    labelTitle="Пароль"
+                    register={register}
+                    errors={errors?.password}
+                />
 
                 <Button typeButton="submit">Войти</Button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export const Login = styled(LoginContainer)`
-
     display: flex;
     flex-direction: column;
-    
+
     width: 30%;
     padding: 10px 20px;
     margin: auto;
@@ -111,4 +119,4 @@ export const Login = styled(LoginContainer)`
         gap: 20px;
         padding: 10px;
     }
-`
+`;

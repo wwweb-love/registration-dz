@@ -1,51 +1,42 @@
-import styled from "styled-components"
-import { TableTitleRow, TableDataRow } from "./components"
-import { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
-import { selectorUser } from "../../../selectors"
-import { NoteFound } from "../../components"
-
+import styled from "styled-components";
+import { TableTitleRow, TableDataRow } from "./components";
+import { useState, useEffect } from "react";
 
 const ApplicationsFromTheFormContainer = ({ className }) => {
-    const user = useSelector(selectorUser)
-    console.log(user)
-
-    const [data, setData] = useState(null)
+    const [data, setData] = useState(null);
 
     useEffect(() => {
-        fetch("http://localhost:3000/recordings").then(res => res.json()).then(res => setData(res))
-    }, [])
+        fetch("http://localhost:3000/recordings", {
+            method: "GET",
+            credentials: "include",
+        })
+            .then((res) => res.json())
+            .then((res) => {
+                setData(res.recordings);
+            });
+    }, []);
 
     return (
         <>
-            {user?.role_id ? (
+            <div className={className}>
+                <h2>Заявки с формы</h2>
 
-                <div className={className}>
-                    <h2>Заявки с формы</h2>
-
-                    <div className="table">
-                        <TableTitleRow />
-                        <TableDataRow data={data} />
-
-                    </div>
+                <div className="table">
+                    <TableTitleRow />
+                    <TableDataRow data={data} />
                 </div>
-            ): (
-                <NoteFound />
-            )}
-
+            </div>
         </>
-    )
-
-}
+    );
+};
 
 export const ApplicationsFromTheForm = styled(ApplicationsFromTheFormContainer)`
-
     display: flex;
     flex-direction: column;
 
     width: 100%;
     height: 100vh;
-    
+
     justify-content: center;
     align-items: center;
     gap: 30px;
@@ -57,5 +48,4 @@ export const ApplicationsFromTheForm = styled(ApplicationsFromTheFormContainer)`
         flex-direction: column;
         gap: 10px;
     }
-    
-`
+`;
